@@ -8,13 +8,13 @@ import ( // virgül yok dikkat et
 	"gohomework/model"
 	"log"
 	"net/http"
-	"time" // cerate-update için
+	"time" // cerate-updateAT için
 
 	"github.com/go-playground/validator/v10"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	// "honnef.co/go/tools/lintcmd/cache"
+	
 )
 
 // go daki map= js de obj (key-value)

@@ -2,6 +2,7 @@ package main // Programın ana paketi, kodun hangi paketin içinde olduğunu bel
 
 import ( // ihtiyaç olan kütüphaneleri alıyorum.
 	"gohomework/database"
+	"gohomework/middleware"
 	"gohomework/router"
 	"log" // hata ayıklama/loglama
 
@@ -41,6 +42,9 @@ func main() {
 	rdb := database.UseRedis()
 
 	e := echo.New() // echo framework sınıfından bir instance oluşturuyoruz
+
+	// auth middleware i ekle 
+	e.Use(middleware.BasicAuthMidd())
 
 	// Router'ı başlat, içerisine parametre olarak Echo'yu ver
 	router.NoteRoutes(e, db, rdb)

@@ -22,3 +22,30 @@ func UseRedis() *redis.Client {
 	return rdb
 
 }
+
+
+/*REDiS kullanırken dikkat edilecek yol
+1-go get ile yükle github.com/go-redis/redis/v8
+
+2- database klasöründe oluştur clean kod adına
+
+3- Router dosyasında hem 3. parametre olarak hem de CRUD işlemlerine parametre olarak ekle
+
+4- main.go sayfasında router fonksiyonunu çağırırken redis bağlantısını da parametre olarak ekle
+
+5- handlers klaösründe ilgiliCRUD işlemlerine kodlarını yaz. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
