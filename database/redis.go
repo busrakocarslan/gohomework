@@ -9,7 +9,7 @@ import (
 )
 
 func UseRedis() *redis.Client {
-	redisURL := os.Getenv("REDIS_URL")
+	redisURL := os.Getenv("redis_url")
 	if redisURL == "" {
 		log.Fatal("Redis URL is not set in environment variables")
 	}
@@ -19,7 +19,7 @@ func UseRedis() *redis.Client {
 		log.Fatalf("Invalid Redis URL: %v", err)
 	}
 	rdb := redis.NewClient(opt)
-	
+
 	_, err = rdb.Ping(context.Background()).Result()
 	if err != nil {
 		log.Fatalf("Failed to connect to Redis: %v", err)
