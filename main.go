@@ -5,6 +5,7 @@ import ( // ihtiyaç olan kütüphaneleri alıyorum.
 	"gohomework/middleware"
 	"gohomework/router"
 	"log" // hata ayıklama/loglama
+	"os" // Portu çevresel değişkenden almak için
 
 	"github.com/labstack/echo/v4" // echo kullanımı için temel kütüphane
 	//ORM-gorm kullanmadım.
@@ -53,6 +54,12 @@ func main() {
 
 	// Router'ı başlat, içerisine parametre olarak Echo'yu ver
 	router.NoteRoutes(e, db, rdb)
+
+	// Portu çevresel değişkenden alma, yoksa varsayılan port 9091
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9091" // Render'ın portu belirleyememesi durumunda varsayılan bir port ayarlayın
+	}
 
 	// Sunucuyu başlat
 	e.Logger.Fatal(e.Start(":9091"))
