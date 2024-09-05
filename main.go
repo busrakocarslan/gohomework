@@ -8,6 +8,8 @@ import ( // ihtiyaç olan kütüphaneleri alıyorum.
 
 	"github.com/labstack/echo/v4" // echo kullanımı için temel kütüphane
 	//ORM-gorm kullanmadım.
+	"github.com/swaggo/echo-swagger" // Swagger için gerekli paket
+	_ "gohomework/docs" // Swagger dokümantasyon dosyalarını import etmelisin
 )
 
 func main() {
@@ -45,6 +47,9 @@ func main() {
 
 	// auth middleware i ekle 
 	e.Use(middleware.BasicAuthMidd())
+
+	// Swagger dokümantasyonu endpoint'i
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// Router'ı başlat, içerisine parametre olarak Echo'yu ver
 	router.NoteRoutes(e, db, rdb)

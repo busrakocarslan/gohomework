@@ -1,0 +1,126 @@
+definitions:
+  model.Note:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      title:
+        minLength: 3
+        type: string
+      updated_at:
+        type: string
+    required:
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /notes:
+    get:
+      description: Retrieve all notes from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Note'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get all notes
+      tags:
+      - notes
+    post:
+      consumes:
+      - application/json
+      description: Add a new note to the database
+      parameters:
+      - description: Note data
+        in: body
+        name: note
+        required: true
+        schema:
+          $ref: '#/definitions/model.Note'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Note'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Create a new note
+      tags:
+      - notes
+  /notes/{id}:
+    delete:
+      description: Remove a note from the database
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Note deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid UUID
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete a note by ID
+      tags:
+      - notes
+    get:
+      description: Retrieve a specific note by ID from the database
+      parameters:
+      - description: Note ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Note'
+        "400":
+          description: Invalid UUID
+          schema:
+            type: string
+        "404":
+          description: Note not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get a note by ID
+      tags:
+      - notes
+swagger: "2.0"

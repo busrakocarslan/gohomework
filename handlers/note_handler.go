@@ -31,7 +31,17 @@ func InitValidation() {
 // sqlite sonrası yazılan yeni CREATE işlemi 
 //?NOT: create func içine func parametresi db *sql.DB, sqlite veri tabanıyla etkileşim kurmamı sağlayan *sql.DB  türünde bir bağlandtı. 
 //* echo.handlerFunc echo frameworkunda http handler fonksiyonu.
-
+// CreateNote godoc
+// @Summary Create a new note
+// @Description Add a new note to the database
+// @Tags notes
+// @Accept  json
+// @Produce  json
+// @Param note body model.Note true "Note data"
+// @Success 201 {object} model.Note
+// @Failure 400 {string} string "Bad request"
+// @Failure 500 {string} string "Internal server error"
+// @Router /notes [post]
 func CreateNote(db *sql.DB) echo.HandlerFunc {// db ye bağlan sql sorgu çalıştır
 	return func(c echo.Context) error {
 
@@ -70,7 +80,16 @@ func CreateNote(db *sql.DB) echo.HandlerFunc {// db ye bağlan sql sorgu çalı�
 
 //**********************************************************/
 
-// sqlite sonrası yazılan yeni read işlemi 
+// sqlite sonrası yazılan yeni read işlemi
+
+// GetNotes godoc
+// @Summary Get all notes
+// @Description Retrieve all notes from the database
+// @Tags notes
+// @Produce  json
+// @Success 200 {array} model.Note
+// @Failure 500 {string} string "Internal server error"
+// @Router /notes [get]
 func GetNotes(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 	return func(c echo.Context) error {// echo.context req ve res içeriyor
 		// Context oluşturuluyor, bu bağlam Redis işlemi için 
@@ -121,6 +140,17 @@ func GetNotes(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 
 //*****************************************************************/
 // tek okuma işlemi 
+// ReadNote godoc
+// @Summary Get a note by ID
+// @Description Retrieve a specific note by ID from the database
+// @Tags notes
+// @Produce  json
+// @Param id path string true "Note ID"
+// @Success 200 {object} model.Note
+// @Failure 400 {string} string "Invalid UUID"
+// @Failure 404 {string} string "Note not found"
+// @Failure 500 {string} string "Internal server error"
+// @Router /notes/{id} [get]
 func ReadNote(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// Context oluşturuluyor, bu bağlam Redis işlemi için 
@@ -182,6 +212,19 @@ func ReadNote(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 
 //*****************************************************************/
 // update işlemi 
+// UpdateNote godoc
+// @Summary Update a note by ID
+// @Description Update the content of a note in the database
+// @Tags notes
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Note ID"
+// @Param note body model.Note true "Updated Note data"
+// @Success 200 {object} model.Note
+// @Failure 400 {string} string "Bad request"
+// @Failure 500 {string} string "Internal server error"
+// @Router /notes/{id} [put]
+
 func UpdateNote(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id, err := uuid.Parse(c.Param("id"))
@@ -221,7 +264,16 @@ func UpdateNote(db *sql.DB, rdb *redis.Client) echo.HandlerFunc {
 }
 //*****************************************************************/
 // delete  işlemi 
-
+// DeleteNote godoc
+// @Summary Delete a note by ID
+// @Description Remove a note from the database
+// @Tags notes
+// @Produce  json
+// @Param id path string true "Note ID"
+// @Success 200 {string} string "Note deleted successfully"
+// @Failure 400 {string} string "Invalid UUID"
+// @Failure 500 {string} string "Internal server error"
+// @Router /notes/{id} [delete]
 func DeleteNote(db *sql.DB,rdb *redis.Client) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id, err := uuid.Parse(c.Param("id"))
