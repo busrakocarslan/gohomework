@@ -3,20 +3,26 @@ package database
 import (
 	"context"
 	"log"
+	"os"// çevresel değişkenler için 
 
 	"github.com/go-redis/redis/v8"
 )
 
 func UseRedis() *redis.Client {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
+	redisURL := os.Getenv("REDIS_URL")
+	if redisURL == "" {
+		log.Fatal("Redis URL is not set in environment variables")
+	}
 
-	_, err := rdb.Ping(context.Background()).Result()
+	opt, err := redis.ParseURL(redisURL)
 	if err != nil {
-		log.Fatalf("Redis'e bağlanılamadı: %v", err)
+		log.Fatalf("Invalid Redis URL: %v", err)
+	}
+	rdb := redis.NewClient(opt)
+	
+	_, err = rdb.Ping(context.Background()).Result()
+	if err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
 	}
 
 	return rdb
