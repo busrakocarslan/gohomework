@@ -1,4 +1,4 @@
-## https://gohomework.onrender.com
+## https://gohomework.onrender.com/swagger/index.html
 
 
 ## Notes API - Go & Echo Project
